@@ -37,12 +37,21 @@ def average_price_by_category(purchases: list) -> dict:
     '''Вывод средней цены товаров по категориям'''
     try:
         avg_price = dict()
+        count_category = dict()
         for i in purchases:
             for key, value in i.items():
                 if value not in avg_price and key == 'category':
                     avg_price[value] = 0
             if i['category'] in avg_price:
                 avg_price[i['category']] += i['price']
+        for i in purchases:
+            if i['category'] in count_category:
+                count_category[i['category']] += 1
+            else:
+                count_category[i['category']] = 1
+        for key in avg_price.keys():
+            if key in count_category:
+                avg_price[key] /= count_category[key]
         return avg_price
     except Exception as err:
         return f"Ошибка формирования отчета: {err}"
